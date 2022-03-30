@@ -1,0 +1,62 @@
+{
+    "agent": {
+      "name": "a2c",
+      "extractor": {
+        "name": "LSTM",
+        "features_dim": 256,
+        "feature_size": 20,
+        "lstm_output_size": 10,
+        "lstm_num_layers": 2,
+        "trans_num_layers": 6,
+        "cnn_out_channels": 4,
+        "cnn_kernel_size": 3,
+        "t_head":4,
+        "num_layers":6,
+        "tech_out_channels": 20,
+        "tech_kernel_size": 3,
+        "cov_out_channels": 4,
+        "cov_kernel_size": 3 ,
+        "hidden_size": 10,
+        "gcn_hidden":16,
+        "gcn_out_size":10,
+        "g_input_size": 30
+
+      }
+    },
+    "train_env": {
+      "data_root_dir": "./data/train/",
+      "look_back": 30,
+      "asset_num": 10,
+      "hold":1,
+      "graph_ft":["open","close","high","low","change","pct_chg","vol","amount"],
+      "alpha":0.001,
+      "beta":100,
+      "in_time": "open",
+      "out_time": "close",
+      "ob_price": "close",
+      "tech_list": ["cr", "atr", "tr", "kdjj", "kdjk", "kdjd", "boll", "boll_ub", "boll_lb",
+                    "rsi_30", "wr_30", "cci_30", "vr", "close_30_sma", "close_60_sma", "dma", "macd",
+                    "pdi_30", "mdi_30", "adx"]
+    },
+    "trade_env": {
+        "data_root_dir": "./data/trade/",
+        "look_back": 30,
+        "asset_num": 10,
+        "hold":1,
+        "graph_ft":["open","close","high","low","change","pct_chg","vol","amount"],
+        "alpha":0.001,
+        "beta":100,
+        "in_time": "open",
+        "out_time": "close",
+        "ob_price": "close",
+        "tech_list": ["cr", "atr", "tr", "kdjj", "kdjk", "kdjd", "boll", "boll_ub", "boll_lb",
+                      "rsi_30", "wr_30", "cci_30", "vr", "close_30_sma", "close_60_sma", "dma", "macd",
+                      "pdi_30", "mdi_30", "adx"]
+      },
+    "pipeline": {
+      "seed": 0,
+      "learn_steps": 10000,
+      "learn_epochs": 200
+    }
+  
+  }
