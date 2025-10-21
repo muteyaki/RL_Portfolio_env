@@ -4,7 +4,7 @@ import pandas as pd
 import sys
 
 def get_raw_data(ticker_list,start_date,end_date):
-    ts_pro=ts.pro_api('d8c9959967bef86acb5b896e0463b74a8d78aaa6aba50f4cd1fc4db6')
+    ts_pro=ts.pro_api('your-token-here')
     for tic in ticker_list:
         ts_code=tic+'.SZ'
         temp_df = ts_pro.daily(ts_code=ts_code, start_date=start_date, end_date=end_date)
