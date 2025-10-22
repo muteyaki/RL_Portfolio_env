@@ -1,8 +1,6 @@
 import  torch
 from    torch import nn
 from    torch.nn import functional as F
-from    utils import sparse_dropout, dot
-
 
 class GraphConvolution(nn.Module):
 
