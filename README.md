@@ -8,7 +8,7 @@ A reinforcement learning environment for portfolio management, supporting stock 
 
 本项目提供了一个符合 OpenAI Gym 标准的强化学习环境，专门用于股票投资组合管理。通过集成 Tushare 数据接口，可以方便地获取真实的股票市场数据，训练智能投资策略。
 
-This project provides an OpenAI Gym-compatible reinforcement learning environment specifically designed for stock portfolio management. By integrating the Tushare data interface, it facilitates easy access to real stock market data for training intelligent investment strategies.
+This project provides reinforcement learning environment with OpenAI Gym specifically designed for stock portfolio management. By integrating the Tushare data interface, it facilitates easy access to real stock market data for training intelligent investment strategies.
 
 ## 安装(Installation)
 
@@ -36,88 +36,30 @@ import tushare as ts
 ts.set_token('your_token_here')  # See 'get_data.py'
 ```
 
-## 使用示例(Examples)
+The data samples could be downloaded like:
 
-### 基础使用(Basic Usage)
+![data](./image/data.png)
 
-```python
-from Portfolio_env import PortfolioEnv
-
-# Define stock pool (using stock codes)
-stock_list = ['000001.SZ', '600000.SH', '000002.SZ', '600036.SH']
-
-# Create environment
-env = PortfolioEnv(
-    stock_codes=stock_list,
-    start_date='20200101',
-    end_date='20231231',
-    initial_balance=100000
-)
-
-# Reset environment
-obs = env.reset()
-
-# Execute one step
-action = env.action_space.sample()  # Random action
-next_obs, reward, done, info = env.step(action)
-
-print(f"Portfolio Value: {info['portfolio_value']}")
-```
-
-### 使用强化学习训练(Training with Reinforcement Learning)
-
-```python
-from stable_baselines3 import PPO
-from Portfolio_env import PortfolioEnv
-
-# Create training environment
-stock_list = ['000001.SZ', '600000.SH', '000002.SZ', '600036.SH']
-env = PortfolioEnv(
-    stock_codes=stock_list,
-    start_date='20200101',
-    end_date='20221231'
-)
-
-# Train PPO model
-model = PPO('MlpPolicy', env, verbose=1)
-model.learn(total_timesteps=50000)
-
-# Save model
-model.save("portfolio_ppo")
-
-# Test model
-test_env = PortfolioEnv(
-    stock_codes=stock_list,
-    start_date='20230101',
-    end_date='20231231'
-)
-obs = test_env.reset()
-done = False
-total_reward = 0
-
-while not done:
-    action, _states = model.predict(obs, deterministic=True)
-    obs, reward, done, info = test_env.step(action)
-    total_reward += reward
-
-print(f"Test Total Reward: {total_reward}")
-print(f"Final Portfolio Value: {info['portfolio_value']}")
-```
 
 ## 股票环境配置(Environment Configuration)
 
 ### 状态空间(State Space)
+
 
 环境的观察空间包含：
 - 股票价格历史数据（开盘价、最高价、最低价、收盘价、成交量）
 - 当前持仓比例
 - 可用资金比例
 
+![sell](./image/sell.png)
+
 The observation space includes:
 
 - Historical stock price data (Open, High, Low, Close, Volume)
 - Current position weights
 - Available cash ratio
+
+\* Since the market data obtained from Tushare is organized on a daily basis, our environment is also constructed with daily state updates.
 
 ### 动作空间(Action Space)
 
